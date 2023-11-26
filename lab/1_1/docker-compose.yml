@@ -1,0 +1,13 @@
+services:
+  server:
+    build: ./server
+    container_name: z21_12_server
+    expose:
+      - ${SERVER_PORT}
+    command: python -u ./server.py ${SERVER_PORT}
+  client:
+    depends_on:
+      - server
+    build: ./client
+    container_name: z21_12_client
+    command: ./client z21_12_server ${SERVER_PORT} ${PACKETS_NUM} ${SLEEP_TIME}
