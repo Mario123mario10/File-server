@@ -21,13 +21,15 @@ print("Will listen on ", HOST, ":", PORT)
 
 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
     sock.bind((HOST, PORT))
-    expected_packet_number = 0
-
+    packet_number = -1
+    
     while True:
         data, addr = sock.recvfrom(BUFSIZE)
         if not data:
             print("Error in datagram?")
             break
+        
+        expected_packet_number = packet_number + 1
 
         packet_number, data_length = struct.unpack('!Ih', data[:6])
         message_data = data[6:6+data_length]
@@ -35,18 +37,20 @@ with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
 
         if packet_number != expected_packet_number:
             print("Missing packet! Expected {}, received {}".format(expected_packet_number, packet_number))
-         
+            sock.sendto(b'Missing packet', addr)
+            continue
 
-        elif received_length != data_length + 6:
+        if received_length != data_length + 6:
             print("Incorrect data length. Expected {}, received {}".format(data_length + 6, received_length))
+            sock.sendto(b'Incorrect data length', addr)
+            continue
 
-        elif not is_printable_ascii(message_data):
+        if not is_printable_ascii(message_data):
             print("Data is not printable ASCII")
+            sock.sendto(b'Data is not printable ASCII', addr)
+            continue
 
-        else:
-            print("\nReceived packet # {}, length: {}, content: \n{}".format(packet_number, received_length, message_data.decode('ascii', errors='ignore')))
-            sock.sendto(b'OK', addr)
-        
-            print('Sending confirmation for packet #', packet_number)
+        print("\nReceived packet # {}, length: {}, content: \n{}".format(packet_number, received_length, message_data.decode('ascii', errors='ignore')))
 
-        expected_packet_number = packet_number + 1
+        sock.sendto(b'OK', addr)
+        print('Sending confirmation for packet #', packet_number)
