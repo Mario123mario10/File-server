@@ -8,6 +8,8 @@ services:
     expose:
       - ${SERVER_PORT}
     command: python -u ./server.py ${SERVER_PORT}
+    cap_add:
+      - NET_ADMIN
   client:
     image: z21_13_client
     depends_on:
@@ -17,6 +19,8 @@ services:
     build: ./client
     container_name: z21_13_client
     command: ./client z21_13_server ${SERVER_PORT} ${PACKETS_NUM} ${SLEEP_TIME}
+    cap_add:
+      - NET_ADMIN
 
 networks:
   z21_network:
