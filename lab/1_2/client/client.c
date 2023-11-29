@@ -28,11 +28,14 @@ int main(int argc, char *argv[])
 {
     int sock;
     struct sockaddr_in server;
+    struct hostent *hp;
     char buffer[DGRAMSIZE];
 	char recv_buffer[DGRAMSIZE]; //bufor na odpowiedz (o takim samym rozmiarze jak datagram)
     int packet_number = 0;
     unsigned char current_char = ASCII_START;
 	socklen_t addr_len = sizeof(server);
+
+    setvbuf(stdout, NULL, _IONBF, 0);
 
     if (argc != 4) Usage();
 
@@ -41,9 +44,22 @@ int main(int argc, char *argv[])
     if (sock == -1) bailout("Nie można utworzyć gniazda");
 
     /* Configure server. */
+    /* uzyskajmy adres IP z nazwy . */
     server.sin_family = AF_INET;
+    hp = gethostbyname2(argv[1], AF_INET);
+
+    /* hostbyname zwraca strukture zawierajaca adres danego hosta */
+    if (hp == (struct hostent *) 0) errx(2, "%s: unknown host\n", argv[1]);
+    printf("address resolved...\n");
+	
+	memcpy((char *) &server.sin_addr, (char *) hp->h_addr, hp->h_length);
     server.sin_port = htons(atoi(argv[2]));
-    server.sin_addr.s_addr = inet_addr(argv[1]);
+
+    char *ip = inet_ntoa(server.sin_addr);
+
+    printf("Resolved IP: ");
+    printf(ip);
+    printf("\n");
 
     struct timeval tv;
     tv.tv_sec = 4;
@@ -63,7 +79,8 @@ int main(int argc, char *argv[])
         memcpy(buffer, &packet_number_net, sizeof(packet_number_net));
         memcpy(buffer + sizeof(packet_number_net), &data_length_net, sizeof(data_length_net));
 
-        for (int i = 6; i < DGRAMSIZE; i++)
+        int i;
+        for (i = 6; i < DGRAMSIZE; i++)
 		{
             buffer[i] = current_char;
             current_char++;
