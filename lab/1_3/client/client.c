@@ -9,6 +9,7 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <sys/time.h>
 #include <unistd.h>
 
 #define ASCII_START 32
@@ -16,6 +17,21 @@
 
 #define bailout(s) { perror(s); exit(1); }
 #define Usage() { errx(0, "Usage: %s <host> <port> <count> <delay-in-ms>\n", argv[0]); }
+
+int sendMessage(int sock, char* buffer[], char* recv_buffer[], struct sockaddr_in server) {
+    socklen_t addr_len = sizeof(server);
+    if (sendto(sock, buffer, DGRAMSIZE, 0, (struct sockaddr *)&server, addr_len) < 0)
+    {
+        perror("Nie można wysłać datagramu\n");
+        return -1;
+    }
+    if (recvfrom(sock, recv_buffer, DGRAMSIZE, 0, (struct sockaddr *)&server, &addr_len) < 0)
+    {
+        printf("Wysyłam datagram jeszcze raz\n");
+        return sendMessage(sock, buffer, recv_buffer, server);
+    }
+    return 1;
+}
 
 int main(int argc, char *argv[])
 {
@@ -37,6 +53,13 @@ int main(int argc, char *argv[])
     /* Create socket. */
     sock = socket(AF_INET, SOCK_DGRAM, 0);
     if (sock == -1) bailout("Nie można utworzyć gniazda");
+
+    struct timeval tv;
+    tv.tv_sec = 4;
+    tv.tv_usec = 0;
+    if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO,&tv,sizeof(tv)) < 0) {
+        perror("Error");
+    }
 
     /* Configure server. */
 	/* uzyskajmy adres IP z nazwy . */
@@ -76,20 +99,10 @@ int main(int argc, char *argv[])
             if (current_char > ASCII_END) current_char = ASCII_START;
         }
 
-		//Wyslanie datagramu
-		if (sendto(sock, buffer, DGRAMSIZE, 0, (struct sockaddr *)&server, sizeof(server)) < 0)
-		{
-			perror("Nie można wysłać datagramu\n");
-			continue;
-		}
-		
-		// Odbieranie odpowiedzi
-		if (recvfrom(sock, recv_buffer, DGRAMSIZE, 0, (struct sockaddr *)&server, &addr_len) < 0)
-		{
-			perror("Błąd przy odbieraniu odpowiedzi\n");
-			continue;
-		}
-        
+        if (sendMessage(sock, buffer, recv_buffer, server) < 0) {
+            continue;
+        }
+
         // Weryfikacja odpowiedzi
 		if (strncmp(recv_buffer, "OK", 2) != 0)
 		{
