@@ -1,4 +1,4 @@
-FROM gcc:13
+FROM gcc:4.9
 WORKDIR /client-src
 COPY . .
-RUN gcc -o client client.c -std=c17
+RUN gcc -o client client.c

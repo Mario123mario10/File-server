@@ -29,6 +29,8 @@ int main(int argc, char *argv[])
 	socklen_t addr_len = sizeof(server);
 	long int i, udelay;
 	
+    setvbuf(stdout, NULL, _IONBF, 0);
+
     if (argc != 5) Usage();
 	udelay = atol(argv[4]) * 1000; //Opoznienie w mikrosekundach
 
@@ -47,6 +49,12 @@ int main(int argc, char *argv[])
 	
 	memcpy((char *) &server.sin_addr, (char *) hp->h_addr, hp->h_length);
     server.sin_port = htons(atoi(argv[2]));
+
+    char *ip = inet_ntoa(server.sin_addr);
+
+    printf("Resolved IP: ");
+    printf(ip);
+    printf("\n");
 	
 	connect (sock, (struct sockaddr *) &server, sizeof(server) );
 	
@@ -60,7 +68,8 @@ int main(int argc, char *argv[])
         memcpy(buffer, &packet_number_net, sizeof(packet_number_net));
         memcpy(buffer + sizeof(packet_number_net), &data_length_net, sizeof(data_length_net));
 
-        for (int i = 6; i < DGRAMSIZE; i++)
+        int i;
+        for (i = 6; i < DGRAMSIZE; i++)
 		{
             buffer[i] = current_char;
             current_char++;
