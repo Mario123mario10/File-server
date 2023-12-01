@@ -284,16 +284,7 @@ while (1)
     int32_t packet_number_net = htonl(packet_number);
     int16_t data_length_net = htons(cur_size-6);
 
-    memcpy(buffer, &packet_number_net, sizeof(packet_number_net));
-    memcpy(buffer + sizeof(packet_number_net), &data_length_net, sizeof(data_length_net));
-
-    int i;
-    for (i = 6; i < DGRAMSIZE; i++)
-    {
-        buffer[i] = current_char;
-        current_char++;
-        if (current_char > ASCII_END) current_char = ASCII_START;
-    }
+    // ...
 
     // Sending datagram
     if (sendto(sock, buffer, cur_size, 0, (struct sockaddr *)&server, sizeof(server)) < 0) perror("Cannot send datagram\n");
@@ -315,15 +306,8 @@ Jeśli serwer otrzyma dane o odpowiedniej długości, odsyła do klienta komunik
 klient python
 ```python
 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-    sock.bind((HOST, PORT))
-    expected_packet_number = 0
 
-    while True:
-        data, addr = sock.recvfrom(BUFSIZE)
-        if not data:
-            print("Error in datagram?")
-            break
-
+    #...
 
         packet_number, data_length = struct.unpack('!Ih', data[:6])
         message_data = data[6:6+data_length]
@@ -338,30 +322,21 @@ with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
         elif received_length != data_length + 6:
             print("Incorrect data length. Expected {}, received {}".format(data_length + 6, received_length))
 
-        elif not is_printable_ascii(message_data):
-            print("Data is not printable ASCII")
-
-        else:
-            print("\nReceived packet # {}, length: {}, content: \n{}".format(packet_number, received_length, message_data.decode('ascii', errors='ignore')))
-            sock.sendto(b'OK', addr)
-
-            print('Sending confirmation for packet #', packet_number)
-
-        expected_packet_number = packet_number + 1
+    #...
 ```
 Jeśli serwer otrzyma za dużo danych, wyświetla odpowiedni komunikat
 
 ### Proponowany Algorytm
-1.0 ustalamy wartości początkowe, rozmiar (wiadomości) = 512 \
-1.1 rozmiar *= 2 \
-1.2 spróbuj wysłać \
-1.3 jeśli się udało powróć do 1.1 \
-2.0 potega2 = rozmiar \
-2.1 potega2 = potega2 / 2 \
-2.2 maxrozzmiar += potega2 \
-2.3 jeśli udało się przesłać  powrót do 2.1 \
-2.4 jeśłi nie maxrozmiar -= potega2 \
-2.5 Powrót do 2.1
+
+1.0 ustalamy wartości początkowe, początek_wiadomości = 0 reszta = 512 \
+1.1 reszta *= 2 \
+1.2 spróbuj wysłać o wielkości początek_wiadomości + reszta \
+1.3 jeśli się udało, początek_wiadomości = początek_wiadomości + reszta; powróć do 1.1 \
+2.0 jeśli nie, reszta /= 2 (reszta to int, czyli 1/2 zwróci 0) \
+2.1 jeśli reszta = 0, zwróć wynik = początek wiadomości + reszta \
+2.2 spróbuj wysłać o wielkości początek_wiadomości + reszta  \
+2.3 jeśli się udało, początek_wiadomości = początek_wiadomości + reszta; powróć do 1.1 \
+2.4 jeśli nie, powróć do 2.0 \
 
 ### Testowanie
 
