@@ -14,7 +14,7 @@ if len(sys.argv) < 2:
 else:
     PORT = int(sys.argv[1])
 
-HOST = '0.0.0.0'  # Standard loopback interface address (localhost)
+HOST = '0.0.0.0' # address unspecified
 BUFSIZE = 512
 
 print("Will listen on ", HOST, ":", PORT)
