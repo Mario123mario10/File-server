@@ -93,10 +93,10 @@ int main(int argc, char *argv[])
         // Response verification
 		if (strncmp(recv_buffer, "OK", 2) != 0)
 		{
-			perror("Got incorrect response from server\n");
+			perror("Received incorrect response from server\n");
 			continue;
 		}
-		printf("Sent packet %d and got confirmation\n", packet_number); // Everything went OK
+		printf("Sent packet %d and received confirmation\n", packet_number); // Everything went OK
     }
 
     close(sock);
