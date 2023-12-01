@@ -7,7 +7,7 @@ Zespół 21 w składzie:
 - Mariusz Pakulski
 - Jan Kowalczewski
 
-Data: 29.11.2023  
+Data: w nagłówku  
 Wersja 1.
 
 ## Polecenie (wariant Aa)
@@ -28,7 +28,7 @@ Kontenery komunikują się między sobą w sieci z21_network, czyli 172.21.21.0/
 
 Wszystkie testy uruchamiane były na serwerze bigubu.ii.pw.edu.pl i stamtąd pochodzą wszystkie wydruki.
 
-\newpage
+<div style="page-break-after: always;"></div>
 
 ## Zadanie 1.1
 
@@ -247,6 +247,8 @@ z21_11_client exited with code 0
 ### Uwagi dot. problemów
 
 Największym wyzwaniem było zapewnienie poprawnej komunikacji między klientem a serwerem, szczególnie przy weryfikacji poprawności otrzymanych danych. Problem ten rozwiązano poprzez dodanie szczegółowej weryfikacji danych w serwerze. Istotne okazało się także odwracanie kolejności bajtów w „nagłówku”, za pomocą funkcji htons i htonl – ze względu na konieczność konwersji ze standardu hosta na standard sieciowy (używany do transmisji danych).
+
+<div style="page-break-after: always;"></div>
 
 ## Zadanie 1.2
 
@@ -472,6 +474,8 @@ z21_12_server  | Incorrect data length. Expected 528, received 512
 z21_12_client exited with code 1
 
 ```
+
+<div style="page-break-after: always;"></div>
 
 ## Zadanie 1.3
 
