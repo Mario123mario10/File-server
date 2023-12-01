@@ -29,7 +29,6 @@ int main(int argc, char *argv[])
     int sock;
     struct sockaddr_in server;
     struct hostent *hp;
-    char buffer[DGRAMSIZE];
 	char recv_buffer[DGRAMSIZE]; // buffer for responses (same size as datagram)
     int packet_number = 0;
     unsigned char current_char = ASCII_START;
@@ -51,7 +50,7 @@ int main(int argc, char *argv[])
     /* hostbyname returns a structure containing host's address */
     if (hp == (struct hostent *) 0) errx(2, "%s: unknown host\n", argv[1]);
     printf("address resolved...\n");
-	
+
 	memcpy((char *) &server.sin_addr, (char *) hp->h_addr, hp->h_length);
     server.sin_port = htons(atoi(argv[2]));
 
@@ -72,7 +71,7 @@ int main(int argc, char *argv[])
     while (1)
     {
         cur_size += BYTES_ADD;
-        buffer[cur_size];
+        char buffer[cur_size];
         int32_t packet_number_net = htonl(packet_number);
         int16_t data_length_net = htons(cur_size-6);
 
