@@ -335,7 +335,7 @@ Jeśli serwer otrzyma za dużo danych, wyświetla odpowiedni komunikat
 2.0 jeśli nie, reszta /= 2 (reszta to int, czyli 1/2 zwróci 0) \
 2.1 jeśli reszta = 0, zwróć wynik = początek wiadomości + reszta \
 2.2 spróbuj wysłać o wielkości początek_wiadomości + reszta  \
-2.3 jeśli się udało, początek_wiadomości = początek_wiadomości + reszta; powróć do 1.1 \
+2.3 jeśli się udało, początek_wiadomości = początek_wiadomości + reszta; reszta /=2; powróć do 1.1 \
 2.4 jeśli nie, powróć do 2.0 \
 
 ### Testowanie
