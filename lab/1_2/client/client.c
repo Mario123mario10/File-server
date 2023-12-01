@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     struct sockaddr_in server;
     struct hostent *hp;
     char buffer[DGRAMSIZE];
-	char recv_buffer[DGRAMSIZE]; //bufor na odpowiedz (o takim samym rozmiarze jak datagram)
+	char recv_buffer[DGRAMSIZE]; // buffer for responses (same size as datagram)
     int packet_number = 0;
     unsigned char current_char = ASCII_START;
 	socklen_t addr_len = sizeof(server);
@@ -41,14 +41,14 @@ int main(int argc, char *argv[])
 
     /* Create socket. */
     sock = socket(AF_INET, SOCK_DGRAM, 0);
-    if (sock == -1) bailout("Nie można utworzyć gniazda");
+    if (sock == -1) bailout("Cannot create socket");
 
     /* Configure server. */
-    /* uzyskajmy adres IP z nazwy . */
+    /* get IP address from name */
     server.sin_family = AF_INET;
     hp = gethostbyname2(argv[1], AF_INET);
 
-    /* hostbyname zwraca strukture zawierajaca adres danego hosta */
+    /* hostbyname returns a structure containing host's address */
     if (hp == (struct hostent *) 0) errx(2, "%s: unknown host\n", argv[1]);
     printf("address resolved...\n");
 	
@@ -87,16 +87,16 @@ int main(int argc, char *argv[])
             if (current_char > ASCII_END) current_char = ASCII_START;
         }
 
-		//Wyslanie datagramu
-        if (sendto(sock, buffer, cur_size, 0, (struct sockaddr *)&server, sizeof(server)) < 0) perror("Nie można wysłać datagramu\n");
+		// Sending datagram
+        if (sendto(sock, buffer, cur_size, 0, (struct sockaddr *)&server, sizeof(server)) < 0) perror("Cannot send datagram\n");
 
-		// Odbieranie odpowiedzi
-        if (recvfrom(sock, recv_buffer, DGRAMSIZE, 0, (struct sockaddr *)&server, &addr_len) < 0) bailout("Brak potwierdzenia od serwera\n");
+		// Receiving response
+        if (recvfrom(sock, recv_buffer, DGRAMSIZE, 0, (struct sockaddr *)&server, &addr_len) < 0) bailout("No response from server\n");
 
 
-        // Weryfikacja odpowiedzi
-        if (strncmp(recv_buffer, "OK", 2) != 0) fprintf(stderr, "Otrzymano niepoprawną odpowiedź od serwera\n");
-		else printf("Wysłano pakiet nr %d o wielkości %d i otrzymano potwierdzenie\n", packet_number, cur_size);//Wszystko poszlo OK
+        // Response verification
+        if (strncmp(recv_buffer, "OK", 2) != 0) fprintf(stderr, "Received incorrect response from server\n");
+		else printf("Sent packet %d of size %d and received confirmation\n", packet_number, cur_size); // Everything went OK
 
         packet_number++;
 		sleep(atoi(argv[3]));
