@@ -520,12 +520,12 @@ int sendMessage(int sock, char* buffer[], char* recv_buffer[], struct sockaddr_i
 ```
 
 W kodzie serwera zmienie uległ jedynie fragment sprawdzania numeru pakietu:
-'''
+```
     if packet_number != expected_packet_number and packet_number != expected_packet_number-1:
             print("Missing packet! Expected {}, received {}".format(expected_packet_number, packet_number))
             sock.sendto(b'Missing packet', addr)
             continue
-'''
+```
 
 
 ### Testowanie
