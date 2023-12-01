@@ -613,7 +613,14 @@ int sendMessage(int sock, char* buffer[], char* recv_buffer[], struct sockaddr_i
 }
 ```
 
-Kod serwera nie został zmodyfikowany.
+W kodzie serwera zmienie uległ jedynie fragment sprawdzania numeru pakietu:
+```
+    if packet_number != expected_packet_number and packet_number != expected_packet_number-1:
+            print("Missing packet! Expected {}, received {}".format(expected_packet_number, packet_number))
+            sock.sendto(b'Missing packet', addr)
+            continue
+```
+
 
 ### Testowanie
 
@@ -693,8 +700,9 @@ z21_13_client  | Sent packet 9 and received confirmation
 z21_13_client exited with code
 ```
 
-Mechanizm zapobiegania gubieniu pakietów działa prawidłowo - w razie braku potwierdzenia pakiet wysyłany jest ponownie.
-
+Mechanizm zapobiegania gubieniu pakietów działa prawidłowo - w obu przybadkach zgbubienie pakietu wysłanego przez klienta jak i zgubieniu pakietu przez serwer.
+Jeśli zgubiony zostanie pakiet wysłany przez klienta, serwer nie dostanie żadnej informacji więc nie wyśle  potwierdzenia ani nie zwiekszy numeru oczekiwanego pakietu. W tej sytuacji pakiet wysyłany jest ponownie.
+Jeśli zgubiony zostanie pakiet wysłany przez serewer(potwierdzenie) , serwer dokona zwiekszenia numeru oczekiwanego pakietu. W tej sytuacji pakiet wysyłany jest ponownie a serwer uznaje to sytuacje za prawidłową nie zmienia licznika spodziewanego pakietu i ponownie wysyła potwierdzenie .
 ## Wnioski
 
 Projekt pokazał praktyczne zastosowanie protokołów UDP w komunikacji sieciowej. Zostały poruszone kluczowe aspekty programowania sieciowego, takie jak obsługa datagramów, weryfikacja danych i obsługa błędów.

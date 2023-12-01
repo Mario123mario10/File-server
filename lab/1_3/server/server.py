@@ -35,8 +35,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
         message_data = data[6:6+data_length]
         received_length = len(data)
 
-        if packet_number != expected_packet_number:
-            print("Missing packet! Expected {}, received {}".format(expected_packet_number, packet_number))
+        if packet_number != expected_packet_number and packet_number != expected_packet_number-1:
+        print("Missing packet! Expected {}, received {}".format(expected_packet_number, packet_number))
             sock.sendto(b'Missing packet', addr)
             continue
 
