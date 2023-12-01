@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     struct sockaddr_in server;
 	struct hostent *hp;
     char buffer[DGRAMSIZE];
-	char recv_buffer[DGRAMSIZE]; //bufor na odpowiedz (o takim samym rozmiarze jak datagram)
+	char recv_buffer[DGRAMSIZE]; // buffer for responses (same size as datagram)
     int packet_number = 0;
     unsigned char current_char = ASCII_START;
 	socklen_t addr_len = sizeof(server);
@@ -32,18 +32,18 @@ int main(int argc, char *argv[])
     setvbuf(stdout, NULL, _IONBF, 0);
 
     if (argc != 5) Usage();
-	udelay = atol(argv[4]) * 1000; //Opoznienie w mikrosekundach
+	udelay = atol(argv[4]) * 1000; // delay in microseconds
 
     /* Create socket. */
     sock = socket(AF_INET, SOCK_DGRAM, 0);
-    if (sock == -1) bailout("Nie można utworzyć gniazda");
+    if (sock == -1) bailout("Cannot create socket");
 
     /* Configure server. */
-	/* uzyskajmy adres IP z nazwy . */
+	/* get IP address from name */
     server.sin_family = AF_INET;
     hp = gethostbyname2(argv[1], AF_INET);
 
-    /* hostbyname zwraca strukture zawierajaca adres danego hosta */
+    /* hostbyname returns a structure containing host's address */
     if (hp == (struct hostent *) 0) errx(2, "%s: unknown host\n", argv[1]);
     printf("address resolved...\n");
 	
@@ -76,27 +76,27 @@ int main(int argc, char *argv[])
             if (current_char > ASCII_END) current_char = ASCII_START;
         }
 
-		//Wyslanie datagramu
+		// Sending datagram
 		if (sendto(sock, buffer, DGRAMSIZE, 0, (struct sockaddr *)&server, sizeof(server)) < 0)
 		{
-			perror("Nie można wysłać datagramu\n");
+			perror("Cannot send datagram\n");
 			continue;
 		}
 		
-		// Odbieranie odpowiedzi
+		// Receiving response
 		if (recvfrom(sock, recv_buffer, DGRAMSIZE, 0, (struct sockaddr *)&server, &addr_len) < 0)
 		{
-			perror("Błąd przy odbieraniu odpowiedzi\n");
+			perror("Error in receiving response\n");
 			continue;
 		}
         
-        // Weryfikacja odpowiedzi
+        // Response verification
 		if (strncmp(recv_buffer, "OK", 2) != 0)
 		{
-			perror("Otrzymano niepoprawną odpowiedź od serwera\n");
+			perror("Got incorrect response from server\n");
 			continue;
 		}
-		printf("Wysłano pakiet nr %d i otrzymano potwierdzenie\n", packet_number); //Wszystko poszlo OK
+		printf("Sent packet %d and got confirmation\n", packet_number); // Everything went OK
     }
 
     close(sock);
