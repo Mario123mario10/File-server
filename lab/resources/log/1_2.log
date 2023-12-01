@@ -1,0 +1,197 @@
+z21_12_server  | Will listen on  0.0.0.0 : 8888
+z21_12_client  | address resolved...
+z21_12_client  | Resolved IP: 172.21.21.2
+z21_12_server  | 
+z21_12_server  | Received packet # 0, length: 16, content: 
+z21_12_server  |  !"#$%&'()
+z21_12_server  | 
+z21_12_client  | Sent packet 0 of size 16 and received confirmation
+z21_12_server  | Sending confirmation for packet # 0
+z21_12_server  | 
+z21_12_server  | Received packet # 1, length: 32, content: 
+z21_12_server  | ?@ABCDEFGHIJKLMNOPQRSTUVWX
+z21_12_server  | Sending confirmation for packet # 1
+z21_12_server  | 
+z21_12_client  | Sent packet 1 of size 32 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 2, length: 48, content: 
+z21_12_server  | ^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'(
+z21_12_server  | 
+z21_12_server  | Sending confirmation for packet # 2
+z21_12_client  | Sent packet 2 of size 48 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 3, length: 64, content: 
+z21_12_server  | }~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVW
+z21_12_server  | Sending confirmation for packet # 3
+z21_12_server  | 
+z21_12_client  | Sent packet 3 of size 64 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 4, length: 80, content: 
+z21_12_server  | =>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'
+z21_12_server  | Sending confirmation for packet # 4
+z21_12_server  | 
+z21_12_client  | Sent packet 4 of size 80 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 5, length: 96, content: 
+z21_12_server  | \]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUV
+z21_12_server  | 
+z21_12_server  | Sending confirmation for packet # 5
+z21_12_client  | Sent packet 5 of size 96 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 6, length: 112, content: 
+z21_12_server  | {|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&
+z21_12_server  | 
+z21_12_server  | Sending confirmation for packet # 6
+z21_12_client  | Sent packet 6 of size 112 and received confirmation
+z21_12_client  | Sent packet 7 of size 128 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 7, length: 128, content: 
+z21_12_server  | ;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTU
+z21_12_server  | Sending confirmation for packet # 7
+z21_12_server  | 
+z21_12_server  | 
+z21_12_server  | Received packet # 8, length: 144, content: 
+z21_12_server  | Z[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%
+z21_12_server  | Sending confirmation for packet # 8
+z21_12_server  | 
+z21_12_client  | Sent packet 8 of size 144 and received confirmation
+z21_12_client  | Sent packet 9 of size 160 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 9, length: 160, content: 
+z21_12_server  | yz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRST
+z21_12_server  | Sending confirmation for packet # 9
+z21_12_server  | 
+z21_12_client  | Sent packet 10 of size 176 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 10, length: 176, content: 
+z21_12_server  | 9:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$
+z21_12_server  | Sending confirmation for packet # 10
+z21_12_server  | 
+z21_12_client  | Sent packet 11 of size 192 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 11, length: 192, content: 
+z21_12_server  | XYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRS
+z21_12_server  | Sending confirmation for packet # 11
+z21_12_server  | 
+z21_12_client  | Sent packet 12 of size 208 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 12, length: 208, content: 
+z21_12_server  | wxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#
+z21_12_server  | Sending confirmation for packet # 12
+z21_12_server  | 
+z21_12_server  | 
+z21_12_server  | Received packet # 13, length: 224, content: 
+z21_12_server  | 789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQR
+z21_12_server  | 
+z21_12_server  | Sending confirmation for packet # 13
+z21_12_client  | Sent packet 13 of size 224 and received confirmation
+z21_12_client  | Sent packet 14 of size 240 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 14, length: 240, content: 
+z21_12_server  | VWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"
+z21_12_server  | Sending confirmation for packet # 14
+z21_12_server  | 
+z21_12_client  | Sent packet 15 of size 256 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 15, length: 256, content: 
+z21_12_server  | uvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQ
+z21_12_server  | Sending confirmation for packet # 15
+z21_12_server  | 
+z21_12_server  | 
+z21_12_server  | Received packet # 16, length: 272, content: 
+z21_12_server  | 56789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !
+z21_12_server  | Sending confirmation for packet # 16
+z21_12_server  | 
+z21_12_client  | Sent packet 16 of size 272 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 17, length: 288, content: 
+z21_12_server  | TUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOP
+z21_12_server  | Sending confirmation for packet # 17
+z21_12_server  | 
+z21_12_client  | Sent packet 17 of size 288 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 18, length: 304, content: 
+z21_12_server  | stuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ 
+z21_12_server  | 
+z21_12_server  | Sending confirmation for packet # 18
+z21_12_client  | Sent packet 18 of size 304 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 19, length: 320, content: 
+z21_12_server  | 3456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNO
+z21_12_server  | Sending confirmation for packet # 19
+z21_12_server  | 
+z21_12_client  | Sent packet 19 of size 320 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 20, length: 336, content: 
+z21_12_server  | RSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+z21_12_server  | Sending confirmation for packet # 20
+z21_12_server  | 
+z21_12_client  | Sent packet 20 of size 336 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 21, length: 352, content: 
+z21_12_server  | qrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMN
+z21_12_server  | Sending confirmation for packet # 21
+z21_12_server  | 
+z21_12_client  | Sent packet 21 of size 352 and received confirmation
+z21_12_client  | Sent packet 22 of size 368 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 22, length: 368, content: 
+z21_12_server  | 123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}
+z21_12_server  | Sending confirmation for packet # 22
+z21_12_server  | 
+z21_12_server  | 
+z21_12_server  | Received packet # 23, length: 384, content: 
+z21_12_server  | PQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLM
+z21_12_server  | Sending confirmation for packet # 23
+z21_12_server  | 
+z21_12_client  | Sent packet 23 of size 384 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 24, length: 400, content: 
+z21_12_server  | opqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|
+z21_12_server  | Sending confirmation for packet # 24
+z21_12_server  | 
+z21_12_client  | Sent packet 24 of size 400 and received confirmation
+z21_12_client  | Sent packet 25 of size 416 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 25, length: 416, content: 
+z21_12_server  | /0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKL
+z21_12_server  | 
+z21_12_server  | Sending confirmation for packet # 25
+z21_12_client  | Sent packet 26 of size 432 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 26, length: 432, content: 
+z21_12_server  | NOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{
+z21_12_server  | Sending confirmation for packet # 26
+z21_12_server  | 
+z21_12_client  | Sent packet 27 of size 448 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 27, length: 448, content: 
+z21_12_server  | mnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJK
+z21_12_server  | Sending confirmation for packet # 27
+z21_12_server  | 
+z21_12_client  | Sent packet 28 of size 464 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 28, length: 464, content: 
+z21_12_server  | -./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz
+z21_12_server  | Sending confirmation for packet # 28
+z21_12_server  | 
+z21_12_server  | 
+z21_12_server  | Received packet # 29, length: 480, content: 
+z21_12_server  | LMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJ
+z21_12_server  | Sending confirmation for packet # 29
+z21_12_server  | 
+z21_12_client  | Sent packet 29 of size 480 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 30, length: 496, content: 
+z21_12_server  | klmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxy
+z21_12_server  | Sending confirmation for packet # 30
+z21_12_server  | 
+z21_12_client  | Sent packet 30 of size 496 and received confirmation
+z21_12_client  | Sent packet 31 of size 512 and received confirmation
+z21_12_server  | 
+z21_12_server  | Received packet # 31, length: 512, content: 
+z21_12_server  | +,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHI
+z21_12_server  | Sending confirmation for packet # 31
+z21_12_server  | 
+z21_12_server  | Incorrect data length. Expected 528, received 512
+z21_12_client exited with code 1
