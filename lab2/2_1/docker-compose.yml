@@ -1,22 +1,22 @@
 services:
   server:
-    image: z21_11_server
+    image: z21_21_server
     networks:
       - z21_network
     build: ./server
-    container_name: z21_11_server
+    container_name: z21_21_server
     expose:
       - ${SERVER_PORT}
     command: python -u ./server.py ${SERVER_PORT}
   client:
-    image: z21_11_client
+    image: z21_21_client
     depends_on:
       - server
     networks:
       - z21_network
     build: ./client
-    container_name: z21_11_client
-    command: ./client z21_11_server ${SERVER_PORT} ${PACKETS_NUM} ${SLEEP_TIME}
+    container_name: z21_21_client
+    command: ./client z21_21_server ${SERVER_PORT} ${PACKETS_NUM} ${SLEEP_TIME}
 
 networks:
   z21_network:

@@ -16,7 +16,7 @@ services:
       - z21_network
     build: ./client
     container_name: z21_11_client
-    command: ./client z21_11_server ${SERVER_PORT} ${PACKETS_NUM} ${SLEEP_TIME}
+    command: ./client 172.21.21.2 ${SERVER_PORT} ${PACKETS_NUM} ${SLEEP_TIME}
 
 networks:
   z21_network:
