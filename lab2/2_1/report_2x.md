@@ -230,4 +230,4 @@ z21_11_client exited with code 0
 ### Uwagi dot. problemów
 
 Największym wyzwaniem było zapewnienie poprawnej komunikacji między klientem a serwerem, szczególnie przy weryfikacji poprawności otrzymanych danych. Problem ten rozwiązano poprzez dodanie szczegółowej weryfikacji danych w serwerze. Istotne okazało się także odwracanie kolejności bajtów w „nagłówku”, za pomocą funkcji htons i htonl – ze względu na konieczność konwersji ze standardu hosta na standard sieciowy (używany do transmisji danych).
-
+Względem wersji UDP należało oczywiście dostosować kod do komunikacji poprzez TCP.
