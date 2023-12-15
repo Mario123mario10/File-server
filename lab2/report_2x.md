@@ -25,7 +25,7 @@ W każdym zadaniu występują dwa kontenery:
 - Kontener z_21_2x_client dla klienta bazujący na gcc w wersji 4.9
 - Kontener z_21_2x_server dla serwera bazujący na obrazie python w wersji 3
 
-Kontenery komunikują się między sobą w sieci z21_network, czyli 172.21.21.0/24.
+Kontenery komunikują się między sobą w sieci z21_network, czyli `172.21.21.0/24` (IPv4) lub `fd00:1032:ac21:21::/64` (IPv6).
 
 Wszystkie testy uruchamiane były na serwerze bigubu.ii.pw.edu.pl i stamtąd pochodzą wszystkie wydruki.
 
@@ -219,3 +219,45 @@ z21_21_client  | Sent packet 9 and received confirmation
 
 Największym wyzwaniem było zapewnienie poprawnej komunikacji między klientem a serwerem, szczególnie przy weryfikacji poprawności otrzymanych danych. Problem ten rozwiązano poprzez dodanie szczegółowej weryfikacji danych w serwerze. Istotne okazało się także odwracanie kolejności bajtów w „nagłówku”, za pomocą funkcji htons i htonl – ze względu na konieczność konwersji ze standardu hosta na standard sieciowy (używany do transmisji danych).
 Względem wersji UDP należało oczywiście dostosować kod do komunikacji poprzez TCP.
+
+## Zadanie 2.2
+
+### Polecenie
+
+Przerób programy z zadania 2.1 tak, aby posługiwały IPv6.
+
+### Opis rozwiązania
+
+Po stronie klienta (C) zmieniono:
+
+- Strukturę sockaddr_in na sockaddr_in6, a co za tym idzie:
+  - Pole `sin6_family` zamiast `sin_family`
+  - Pole `sin6_addr` zamiast `sin_addr`
+  - Pole `sin6_port` zamiast `sin_port`
+- Typ gniazda z `AF_INET` na `AF_INET6`
+- Zamiast funkcji resolvera `gethostbyname` użyto `gethostbyname2` z parametrem `AF_INET6`
+
+Po stronie serwera (Python) zmieniono:
+
+- Typ gniazda z `AF_INET` na `AF_INET6`
+- Tymczasowy adres hosta z `0.0.0.0` (IPv4) na `::` (IPv6)
+
+### Testowanie
+
+Program został uruchomiony identyczne jak w zadaniu 2.1.
+
+```text
+z21_22_server  | Will listen on  :: : 8888
+z21_22_server  | Connected by ('fd00:1032:ac21:21::3', 60708, 0, 0)
+z21_22_server  | 
+z21_22_server  | Received packet # 0, length: 512, content: 
+z21_22_server  |  !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>
+z21_22_server  | 
+z21_22_server  | 
+z21_22_server  | Received packet # 1, length: 512, content: 
+z21_22_server  | ?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]
+[...]
+```
+
+Jak widać po komunikatach z serwera, klient poprawnie nawiązał połączenie po adresie IPv6.
+
