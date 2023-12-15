@@ -311,7 +311,7 @@ pomiar czasu
 
 
 server.c 
-...
+```
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -466,7 +466,7 @@ int main(void)
 	return 0;
 }
 
-...
+```
 
 Serwer tworzy gniazdo powiązane z określonym hostem i portem (metoda bind) i nasłuchuje (listen), oczekując na nawiązanie połączenia (accept – ta metoda zwraca połączenie i adres) . Następnie przy pomocy danych z nagłówków  Odbiera  wiadomość zawartą w datagramie (read) i gdy odbierze cały pakiet idzie spać na chwile.
 
