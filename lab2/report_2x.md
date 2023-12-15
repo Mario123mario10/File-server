@@ -261,7 +261,7 @@ z21_22_server  | ?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}
 
 Jak widać po komunikatach z serwera, klient poprawnie nawiązał połączenie po adresie IPv6.
 
-## Zadanie 2.2
+## Zadanie 2.3
 
 ### Polecenie
 
