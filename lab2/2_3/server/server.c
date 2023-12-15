@@ -32,6 +32,7 @@ void writeMessage(int pckgNumber, int pckgSize, char* pckgData)
 	printf("package number - %i\n", pckgNumber);
 	printf("package size - %i\n", pckgSize);
 	printf("package data - %s\n", pckgData);
+	usleep(SLEEPFORMLSEC * 1000);
 	// for (int i=0;i<pckgSize;i++)
 	// {
 	// 	printf("%c",(unsigned char) pckgData[i]);
@@ -144,7 +145,7 @@ int main(void)
 					}
 				}
 			}
-			usleep(SLEEPFORMLSEC * 1000);
+		
 			current_begin = 0;
 		}
 	} while (rval > 0);
