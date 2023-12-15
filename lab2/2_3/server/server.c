@@ -39,9 +39,12 @@ void writeMessage(int pckgNumber, int pckgSize, char* pckgData)
 	// }
 }
 
+#define Usage() { errx(0, "Usage: %s port\n", argv[0]); }
 
-int main(void)
+int main(int argc, char *argv[])
 {
+	if(argc != 2) Usage();
+	setvbuf(stdout, NULL, _IONBF, 0);
 	int buffer_size = 10*1024; //10 kb
 	int read_buf_size = 512;
 	int sock;
@@ -62,9 +65,9 @@ int main(void)
 	}
 
 	server.sin_family = AF_INET;
-	server.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+	server.sin_addr.s_addr = htonl(INADDR_ANY);
 	//server.sin_addr.s_addr = INADDR_ANY;
-	server.sin_port = 8080;
+	server.sin_port = htons(atoi(argv[1]));
 	if (bind(sock, (struct sockaddr*)&server, sizeof server) == -1)
 		perror("binding stream socket");
 

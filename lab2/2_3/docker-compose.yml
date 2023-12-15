@@ -1,0 +1,23 @@
+services:
+  server:
+    image: z21_23_server
+    networks:
+      - z21_network
+    build: ./server
+    container_name: z21_23_server
+    expose:
+      - ${SERVER_PORT}
+    command: ./server ${SERVER_PORT}
+  client:
+    image: z21_23_client
+    depends_on:
+      - server
+    networks:
+      - z21_network
+    build: ./client
+    container_name: z21_23_client
+    command: ./client z21_23_server ${SERVER_PORT} ${COUNT} ${PACKETS_IN_BUCKET} ${BUFFER_SIZE}
+
+networks:
+  z21_network:
+    external: true

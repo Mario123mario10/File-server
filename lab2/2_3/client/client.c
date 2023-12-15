@@ -20,6 +20,7 @@
 
 int main(int argc, char *argv[])
 {
+    setvbuf(stdout, NULL, _IONBF, 0);
     if (argc != 6) Usage();
 
     int buffer_size = atoi(argv[5]);
@@ -43,6 +44,13 @@ int main(int argc, char *argv[])
     if (hp == NULL) errx(2, "%s: unknown host\n", argv[1]);
 
     memcpy(&server.sin_addr, hp->h_addr, hp->h_length);
+
+    char *ip = inet_ntoa(server.sin_addr);
+
+    printf("Resolved IP: ");
+    printf(ip);
+    printf("\n");
+
     server.sin_port = htons(atoi(argv[2]));
 
     if (connect(sock, (struct sockaddr *) &server, sizeof(server)) == -1)
