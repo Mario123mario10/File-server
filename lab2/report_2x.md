@@ -496,7 +496,7 @@ z21_23_client  | average time in microseconds: 677, between packages 9000 and 10
 z21_23_server  | package number - 8598
 ```
 
-Dla pakietów 1kb
+Dla pakietów 1kB
 
 ```text
 z21_23_client  | average time in microseconds: 148, between packages 0 and 1000 
@@ -511,7 +511,7 @@ z21_23_client  | average time in microseconds: 1018, between packages 8000 and 9
 z21_23_client  | average time in microseconds: 1018, between packages 9000 and 10000 
 ```
 
-Dla pakietów 10kb
+Dla pakietów 10kB
 
 ```text
 z21_23_client  | average time in microseconds: 1099, between packages 0 and 1000 
