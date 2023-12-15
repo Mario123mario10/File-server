@@ -478,9 +478,11 @@ Testowanie tak jak w wypadku 2.1
 
 
 
-###Wyniki
-dla pakietów o rozmiaże 512 bajtów 
- 
+### Wyniki
+
+Dla pakietów o rozmiaże 512 bajtów 
+
+```text
 z21_23_client  | average time in microseconds: 4, between packages 0 and 1000 
 z21_23_client  | average time in microseconds: 811, between packages 1000 and 2000 
 z21_23_client  | average time in microseconds: 1135, between packages 2000 and 3000 
@@ -492,8 +494,11 @@ z21_23_client  | average time in microseconds: 1350, between packages 7000 and 8
 z21_23_client  | average time in microseconds: 1347, between packages 8000 and 9000 
 z21_23_client  | average time in microseconds: 677, between packages 9000 and 10000 
 z21_23_server  | package number - 8598
+```
 
-dla pakietów 1kb
+Dla pakietów 1kb
+
+```text
 z21_23_client  | average time in microseconds: 148, between packages 0 and 1000 
 z21_23_client  | average time in microseconds: 1000, between packages 1000 and 2000 
 z21_23_client  | average time in microseconds: 1365, between packages 2000 and 3000 
@@ -504,9 +509,11 @@ z21_23_client  | average time in microseconds: 1022, between packages 6000 and 7
 z21_23_client  | average time in microseconds: 1360, between packages 7000 and 8000 
 z21_23_client  | average time in microseconds: 1018, between packages 8000 and 9000 
 z21_23_client  | average time in microseconds: 1018, between packages 9000 and 10000 
+```
 
+Dla pakietów 10kb
 
-dla pakietów 10kb
+```text
 z21_23_client  | average time in microseconds: 1099, between packages 0 and 1000 
 z21_23_client  | average time in microseconds: 1100, between packages 1000 and 2000 
 z21_23_client  | average time in microseconds: 1165, between packages 2000 and 3000 
@@ -517,9 +524,9 @@ z21_23_client  | average time in microseconds: 1122, between packages 6000 and 7
 z21_23_client  | average time in microseconds: 1160, between packages 7000 and 8000 
 z21_23_client  | average time in microseconds: 1118, between packages 8000 and 9000 
 z21_23_client  | average time in microseconds: 1118, between packages 9000 and 10000 
+```
 
+### Wnioski
 
-
-###Wnioski
 kolejka jest w stanie pomieścić ok 1402*512 bajtów danych
 dla pakietów przed tym limitem czas pomiaru jest nie wielki a po zapełnieniu czas ten zbliża się do czasu spania serwera.
