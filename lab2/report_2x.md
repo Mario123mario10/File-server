@@ -261,3 +261,226 @@ z21_22_server  | ?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}
 
 Jak widać po komunikatach z serwera, klient poprawnie nawiązał połączenie po adresie IPv6.
 
+## Zadanie 2.2
+
+### Polecenie
+
+Wychodząc z programu 2.1 zmodyfikuj programy klienta i serwera w następujący sposób:
+Klient powinien wysyłać do serwera strumień danych w pętli (tzn. danych powinno być „dużo”,
+minimum rzędu kilkuset KB). Serwer powinien odbierać dane, ale między odczytami realizować
+sztuczne opóźnienie (np. przy pomocy funkcji sleep()). W ten sposób symulujemy zjawisko
+odbiorcy, który „nie nadąża” za szybkim nadawcą. Stos TCP będzie spowalniał nadawcę, aby
+uniknąć tracenia danych. Należy zidentyfikować objawy tego zjawiska po stronie klienta (dodając
+pomiar i logowanie czasu) i krótko przedstawić swoje wnioski poparte uzyskanymi statystykami
+czasowymi. Wskazane jest też przeprowadzenie eksperymentu z różnymi rozmiarami bufora
+nadawczego po stronie klienta (np. 100 B, 1 KB, 10 KB)
+To zadanie należy wykonać, korzystając z kodu klienta i serwera napisanych w języku C (konieczne
+może być napisanie brakującego kodu serwera lub klienta w C w zależności od wariantu zadania
+
+
+### Opis rozwiązania
+
+W kliencie dodaliśmy pomiar czasu  i pętle w celu uzyskania średnich wartośći z 100 pakietów
+
+pomiar czasu
+
+```
+
+        gettimeofday(&start, NULL);
+        if (write(sock, buffer, buffer_size) == -1) bailout("writing on stream socket");
+        gettimeofday(&stop, NULL);
+```
+
+ pętla w celu uzyskania średnich wartości
+```
+
+    long long time = 0;
+    int i_begin = 0;
+    for(int i = 0; i < num_packets; i++)
+    {
+        time += sendingTime[i];
+        if(i % average_of == 0)
+        {
+            if(i == 0) continue; // prevent first empty print
+                printf("average time in microseconds: %llu, between packages %d and %d \n", (time /average_of), i_begin, i);
+            i_begin = i;
+            time = 0;
+        }
+    }
+```
+
+
+server.c 
+...
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <err.h>
+#include <stdlib.h>
+
+#define SLEEPFORMLSEC 1
+
+void readNewPackage(char* buffer, int read_start, int* pckg_number, int* msg_size)
+{
+	int temp_pckg_number = 0;
+	int temp_msg_size = 0;
+	for (int i=0;i<4;i++)
+	{
+		temp_pckg_number = 256 * temp_pckg_number + (unsigned char) buffer[read_start + i];
+	}
+	for (int i=4;i<6;i++)
+	{
+		temp_msg_size = 256 * temp_msg_size + (unsigned char) buffer[read_start + i];
+	}
+	*pckg_number = temp_pckg_number;
+	*msg_size = temp_msg_size;
+}
+
+void writeMessage(int pckgNumber, int pckgSize, char* pckgData)
+{
+	printf("package number - %i\n", pckgNumber);
+	printf("package size - %i\n", pckgSize);
+	printf("package data - %s\n", pckgData);
+	// for (int i=0;i<pckgSize;i++)
+	// {
+	// 	printf("%c",(unsigned char) pckgData[i]);
+	// }
+}
+
+
+int main(void)
+{
+	int buffer_size = 10*1024; //10 kb
+	int read_buf_size = 512;
+	int sock;
+	struct sockaddr_in server;
+	int msgsock;
+	char buf[read_buf_size];
+	char recvdmessage[buffer_size];
+	int rval;
+
+	int current_msg_size;
+	int current_pckg_number;
+	int current_buffer_end = 0;
+
+	sock = socket(AF_INET, SOCK_STREAM, 0);
+	if (sock == -1) {
+		perror("opening stream socket");
+		return 1;
+	}
+
+	server.sin_family = AF_INET;
+	server.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+	//server.sin_addr.s_addr = INADDR_ANY;
+	server.sin_port = 8080;
+	if (bind(sock, (struct sockaddr*)&server, sizeof server) == -1)
+		perror("binding stream socket");
+
+
+	printf("Socket port: %d\n", ntohs(server.sin_port));
+
+	listen(sock, 4);
+	socklen_t addr_size = sizeof(struct sockaddr_in);
+	msgsock = accept(sock, (struct sockaddr*)0, &addr_size);
+
+	int has_read_header = 0;
+
+	if (msgsock == -1) {
+		perror("accept"); return 3;
+	}
+	else do {
+		memset(buf, 0, sizeof buf);
+		if ((rval = read(msgsock, buf, read_buf_size)) == -1) {
+			perror("reading stream message");
+			return 4;
+		}
+		if (rval == 0)
+			printf("Ending connection\n");
+
+		else
+		{
+			int data_to_parse = read_buf_size-6;
+			int current_begin=0;
+
+			if(!has_read_header)
+			{
+				readNewPackage(buf, 0, &current_pckg_number, &current_msg_size);
+				has_read_header = 1;
+				current_buffer_end = 0;
+				current_begin += 6;
+			}
+			int temp = strlen(buf);
+			data_to_parse = strlen(buf +current_begin);
+
+			while(data_to_parse > 0)
+			{
+				int current_data_to_read;
+				if(data_to_parse > current_msg_size - current_buffer_end)
+				{
+					data_to_parse -= current_msg_size - current_buffer_end;
+					current_data_to_read = current_msg_size - current_buffer_end;
+				}
+				else
+				{
+					current_data_to_read = data_to_parse;
+					data_to_parse = 0;
+				}
+				strncpy(&recvdmessage[current_buffer_end], &buf[current_begin], current_data_to_read);
+
+				current_begin += current_data_to_read;
+				current_buffer_end += current_data_to_read;
+
+				if(current_buffer_end == current_msg_size){
+					writeMessage(current_pckg_number, current_msg_size, recvdmessage);
+					has_read_header = 0;
+					current_buffer_end = 0;
+					data_to_parse = strlen(buf +current_begin + 6);
+					if(data_to_parse > 0) // if there is something after next header
+					{
+						readNewPackage(buf, current_begin, &current_pckg_number, &current_msg_size);
+						has_read_header = 1;
+						current_buffer_end = 0;
+						current_begin += 6;
+					}
+					else if (data_to_parse == 0) continue;
+					else
+					{
+						// there is currently no code to handle a situation
+						// if stream buffer we receive, has the next package header split into the buffer
+						// such a scenario is very unlikely to happen
+						perror("incomplete data");
+						return 5;
+					}
+				}
+			}
+			usleep(SLEEPFORMLSEC * 1000);
+			current_begin = 0;
+		}
+	} while (rval > 0);
+	close(msgsock);
+	return 0;
+}
+
+...
+
+Serwer tworzy gniazdo powiązane z określonym hostem i portem (metoda bind) i nasłuchuje (listen), oczekując na nawiązanie połączenia (accept – ta metoda zwraca połączenie i adres) . Następnie przy pomocy danych z nagłówków  Odbiera  wiadomość zawartą w datagramie (read) i gdy odbierze cały pakiet idzie spać na chwile.
+
+
+
+### Testowanie
+
+Testowanie tak jak w wypadku 2.1 
+
+
+###Wyniki
+
+
+
+###Wnioski
+kolejka jest w stanie pomieścić ok 144*512 bajtów danych
+dla pakietów przed tym limitem czas pomiaru jest nie wielki a po zapełnieniu czas ten zbliża się do czasu spania serwera.
