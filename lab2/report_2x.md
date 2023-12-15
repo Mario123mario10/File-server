@@ -506,6 +506,19 @@ z21_23_client  | average time in microseconds: 1018, between packages 8000 and 9
 z21_23_client  | average time in microseconds: 1018, between packages 9000 and 10000 
 
 
+dla pakietów 10kb
+z21_23_client  | average time in microseconds: 1099, between packages 0 and 1000 
+z21_23_client  | average time in microseconds: 1100, between packages 1000 and 2000 
+z21_23_client  | average time in microseconds: 1165, between packages 2000 and 3000 
+z21_23_client  | average time in microseconds: 1119, between packages 3000 and 4000 
+z21_23_client  | average time in microseconds: 1116, between packages 4000 and 5000 
+z21_23_client  | average time in microseconds: 1120, between packages 5000 and 6000 
+z21_23_client  | average time in microseconds: 1122, between packages 6000 and 7000 
+z21_23_client  | average time in microseconds: 1160, between packages 7000 and 8000 
+z21_23_client  | average time in microseconds: 1118, between packages 8000 and 9000 
+z21_23_client  | average time in microseconds: 1118, between packages 9000 and 10000 
+
+
 
 ###Wnioski
 kolejka jest w stanie pomieścić ok 1402*512 bajtów danych
