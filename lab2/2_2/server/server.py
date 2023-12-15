@@ -15,7 +15,7 @@ def main():
     else:
         PORT = int(sys.argv[1])
 
-    HOST = '0.0.0.0'  # Address unspecified
+    HOST = '::'  # Address unspecified
     BUFSIZE = 512
 
     print("Will listen on ", HOST, ":", PORT)

@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     sock = socket(AF_INET6, SOCK_STREAM, 0);
     if (sock == -1) bailout("opening stream socket");
 
-    server.sin_family = AF_INET6;
+    server.sin6_family = AF_INET6;
     hp = gethostbyname2(argv[1], AF_INET6);
     if (hp == NULL) errx(2, "%s: unknown host\n", argv[1]);
 
