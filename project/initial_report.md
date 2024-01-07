@@ -21,7 +21,7 @@ mechanizmu wielowątkowości.
 ## Interpretacja treści zadania (doprecyzowanie)
 
 Projekt ma na celu stworzenie serwera plików, który umożliwia
-użytkownikom pobieranie plików przez połączenia TCP.  
+użytkownikom pobieranie plików przez połączenia TCP.
 Kluczowe aspekty projektu to:
 
 1. Protokół TCP: Serwer wykorzystuje protokół TCP, co gwarantuje
@@ -54,8 +54,11 @@ funkcje:
   - Wielowątkowa obsługa żądań:
     - Dla każdego połączenia klienta, tworzy osobny wątek, umożliwiając równoczesną obsługę wielu żądań
     - Każdy wątek jest odpowiedzialny za obsługę interakcji z pojedynczym klientem
-  - Proces przesyłania plików
+  - Proces przesyłania plików:
     - Po otrzymaniu żądania od klienta, inicjuje i kontroluje przesyłanie pliku do klienta
+  - Wyświetlanie listy plików:
+    - Po otrzymaniu żądania "ls" od klienta wyświetla zawartość wskazanego w argumencie katalogu. Domyślnie jest to główny katalog serwera
+    - Po otrzymaniu żądania "tree" od klienta wyświetla drzewo folderów dla wskazanego w argumencie katalogu. Domyślnie dla głównego katalogu serwera
 
 - Klient – aplikacja kliencka, która komunikuje się z serwerem, realizując następujące funkcje:
   - Inicjowanie połączenia
@@ -65,6 +68,7 @@ funkcje:
     - Po otrzymaniu pliku od serwera, zapisuje go w lokalnym systemie plików.
   - Interfejs użytkownika
     - Umożliwia użytkownikowi wprowadzenie nazwy pliku do pobrania
+    - Umożliwia użytkownikowi wyświetlenie zawartości lub drzewa folderów dla wskazanego katalogu
 
 ## Opis i analiza poprawności stosowanych protokołów komunikacyjnych
 
@@ -91,9 +95,12 @@ Odpowiedź serwera
 
 | Nazwa | Typ danych |
 |----------|:-------------|
-| ścieżka do pliku | unsigned int 16 = 0 |
+| polecenie | str |
+| ścieżka do pliku | str |
 
 ### Odpowiedź serwer-klient
+
+## W przypadku pobierania plików:
 
 W przypadku poprawnego zapytania klienta:
 
@@ -116,6 +123,26 @@ możliwe błędy:
 - 2 - niepoprawny katalog
 - 3 - inny
 
+## W przypadku wyświetlania listy plików
+
+W przypadku poprawnego zapytania klienta:
+
+| Nazwa | Typ danych |
+|----------|:-------------|
+| kod błędu | unsigned int 16 = 0 |
+| lista plików | str |
+
+W przypadku niepoprawnego zapytania klienta:
+
+| Nazwa | Typ danych |
+|----------|:-------------|
+| kod błędu | unsigned int 16 |
+
+możliwe błędy:
+
+- 2 - niepoprawny katalog
+- 3 - inny
+
 ## Planowany podział na moduły i struktura komunikacji
 
 ### Moduły
@@ -124,15 +151,20 @@ możliwe błędy:
   - main(): nasłuchuje na połączenia TCP na określonym porcie i tworzy nowe wątki
   - handle_connection(socket): wywoływana w każdym nowym wątku, odbiera komunikaty od klienta, wywołuje funkcje sprawdzające czy zapytanie jest poprawne, po czym wysyła dane do klienta, i czeka na kolejne zapytanie / zakończenie połączenia.
   - verify_file_path(path) - sprawdza czy dane do klienta są legalne (czy ścieżka do pliku nie wychodzi poza katalog)
+  - get_ls(path): pobiera do stringa zawartość wskazanego katalogu
+  - get_tree(path): pobiera do stringa drzewo folderów dla wskazanego katalogu
+
 - Moduł Klienta:
-  - get_file(path): wysyła komunikat do serwera z prośba o wysłanie pliku, odbiera go i zapisuje
+  - get_file(path): wysyła komunikat do serwera z prośbą o wysłanie pliku, odbiera go i zapisuje
+  - print_ls(path): wysyła komunikat do serwera z prośbą o listę zawartości wskazanego katalogu
+  - print_tree(path): wysyła komunikat do serwera z prośbą o drzewo folderów dla wskazanego katalogu
   - main(): łączy się z serwerem i w pętli prosi użytkownika o podanie ścieżki pliku do pobrania
 
 ### Struktura Komunikacji
 
 Komunikacja między klientem a serwerem odbywa się przez połączenia
 TCP, gdzie serwer obsługuje każde połączenie w osobnym wątku. Klient
-inicjuje połączenie, i wysyła żądania o plikach, po czym odbiera i zapisuje pliki przesłane przez serwer.
+inicjuje połączenie, i wysyła żądania dotyczące plików, po czym odbiera i zapisuje pliki przesłane przez serwer lub wyświetla otrzymaną listę plików
 
 ## Zarys koncepcji implementacji
 
