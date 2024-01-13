@@ -33,10 +33,13 @@ def handle_client(connection, address):
                 send_ls(connection, path)
             elif command == 'tree':
                 send_tree(connection, path)
+            else: #exit
+                break
         except Exception as e:
             print(f"Wystąpił błąd: {e}")
             break
     connection.close()
+    print("Połączenie zostało zamknięte")
 
 
 def send_file(connection, requested_path):
@@ -122,7 +125,7 @@ def main():
     parser.add_argument('--port', default=65432, help='Port nasłuchu serwera')
     args = parser.parse_args()
     global BASE_PATH
-    BASE_PATH = args.base_path
+    BASE_PATH = os.path.abspath(args.base_path)
     start_server(args.host, int(args.port))
 
 
