@@ -104,8 +104,8 @@ def send_tree(connection, requested_path, indent=''):
 
 def start_server(host='127.0.0.1', port=65432):
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 65536) # Zwiększenie rozmiaru bufora odbiorczego (RCV)
-    server.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 65536) # Zwiększenie rozmiaru bufora nadawczego (SND)
+    server.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 65536)  # Zwiększenie rozmiaru bufora odbiorczego (RCV)
+    server.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 65536)  # Zwiększenie rozmiaru bufora nadawczego (SND)
     server.bind((host, port))
     server.listen()
     print(f"Serwer nasłuchuje na {host}:{port}")
