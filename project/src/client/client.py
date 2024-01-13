@@ -1,5 +1,6 @@
 import socket
 import json
+import argparse
 
 
 def send_request(server_host, server_port, command, path=""):
@@ -45,15 +46,7 @@ def receive_file_data(client_socket, save_path, file_size):
             received_size += len(data)
 
 
-def main():
-
-    default_server_host = '127.0.0.1'
-    server_port = 65432
-
-    server_host = input(f"Wprowadź adres IP serwera [{default_server_host}]: ")
-    if not server_host:
-        server_host = default_server_host
-
+def run_client(server_host, server_port):
     while True:
         print("Dostępne komendy: get, ls, tree, exit")
         command = input("Wprowadź komendę: ")
@@ -69,6 +62,14 @@ def main():
         else:
             print("Nieznana komenda.")
         print("\n")
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('host', help='Server host')
+    parser.add_argument('--port', default=65536, type=int, help='Server port')
+    args = parser.parse_args()
+    run_client(args.host, args.port)
 
 
 if __name__ == "__main__":

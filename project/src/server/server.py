@@ -4,6 +4,7 @@ import os
 import json
 import time
 import os
+import argparse
 
 # Ustaw bazową ścieżkę na katalog, w którym znajduje się plik serwera
 base_path = os.path.dirname(os.path.realpath(__file__))
@@ -102,7 +103,7 @@ def send_tree(connection, requested_path, indent=''):
         connection.sendall(json.dumps({"status": "error", "message": "Niepoprawna ścieżka"}).encode())
 
 
-def start_server(host='127.0.0.1', port=65432):
+def start_server(host, port):
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 65536)  # Zwiększenie rozmiaru bufora odbiorczego (RCV)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 65536)  # Zwiększenie rozmiaru bufora nadawczego (SND)
@@ -115,6 +116,13 @@ def start_server(host='127.0.0.1', port=65432):
         thread.start()
 
 
-# Uruchom serwer
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--host', default='127.0.0.1', help='Adres nasłuchu serwera')
+    parser.add_argument('--port', default=65432, help='Port nasłuchu serwera')
+    args = parser.parse_args()
+    start_server(args.host, int(args.port))
+
+
 if __name__ == '__main__':
-    start_server()
+    main()
