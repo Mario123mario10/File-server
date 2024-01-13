@@ -1,3 +1,3 @@
 FROM python:3
 WORKDIR /client-src
-COPY ./client.py .
+COPY ./src/client.py .

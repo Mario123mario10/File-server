@@ -13,7 +13,7 @@ from client import receive_json_response
 
 def prepare_server_container():
     return (DockerContainer(image="python:3.11")
-            .with_volume_mapping(os.path.abspath("../server/"), "/server-src")
+            .with_volume_mapping(os.path.abspath("../server/src"), "/server-src")
             .with_command(f"python3 /server-src/server.py /server-files/ --host 0.0.0.0 --port 65432")
             .with_exposed_ports(65432))
 
