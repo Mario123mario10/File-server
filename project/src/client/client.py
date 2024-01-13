@@ -1,6 +1,7 @@
 import socket
 import json
 
+
 def send_request(server_host, server_port, command, path=""):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         client_socket.connect((server_host, server_port))
@@ -34,6 +35,7 @@ def receive_json_response(client_socket):
             break
     return json.loads(response_data)
 
+
 def receive_file_data(client_socket, save_path, file_size):
     with open(save_path, 'wb') as file:  # binarnie
         received_size = 0
@@ -42,8 +44,9 @@ def receive_file_data(client_socket, save_path, file_size):
             file.write(data)
             received_size += len(data)
 
+
 def main():
-    
+
     default_server_host = '127.0.0.1'
     server_port = 65432
 
@@ -66,6 +69,7 @@ def main():
         else:
             print("Nieznana komenda.")
         print("\n")
+
 
 if __name__ == "__main__":
     main()

@@ -8,13 +8,14 @@ import os
 # Ustaw bazową ścieżkę na katalog, w którym znajduje się plik serwera
 base_path = os.path.dirname(os.path.realpath(__file__))
 
+
 def verify_file_path(requested_path):
     # Uzyskanie bezwzględnej ścieżki do żądanego pliku
     absolute_requested_path = os.path.abspath(requested_path)
     # Sprawdzenie, czy żądana ścieżka znajduje się w obrębie bazowej ścieżki
     return os.path.commonprefix([base_path, absolute_requested_path]) == base_path
-	
-	
+
+
 def handle_client(connection, address):
     print(f"Połączenie z {address} zostało nawiązane.")
     while True:
@@ -37,6 +38,7 @@ def handle_client(connection, address):
             break
     connection.close()
 
+
 def send_file(connection, requested_path):
     full_path = os.path.join(base_path, requested_path)
 
@@ -53,6 +55,7 @@ def send_file(connection, requested_path):
             while data:
                 connection.sendall(data)
                 data = file.read(4096)
+
 
 def send_ls(connection, requested_path):
     full_path = os.path.join(base_path, requested_path)
@@ -88,7 +91,7 @@ def send_tree(connection, requested_path, indent=''):
             tree_list.append("Katalog nie znaleziony\n")
 
     full_path = os.path.join(base_path, requested_path)
-    
+
     if verify_file_path(full_path):
         tree_list = []
         generate_tree(full_path, indent, tree_list)
@@ -97,7 +100,6 @@ def send_tree(connection, requested_path, indent=''):
         connection.sendall(response.encode())
     else:
         connection.sendall(json.dumps({"status": "error", "message": "Niepoprawna ścieżka"}).encode())
-
 
 
 def start_server(host='127.0.0.1', port=65432):
@@ -112,5 +114,7 @@ def start_server(host='127.0.0.1', port=65432):
         thread = threading.Thread(target=handle_client, args=(conn, addr))
         thread.start()
 
+
 # Uruchom serwer
-start_server()
+if __name__ == '__main__':
+    start_server()
