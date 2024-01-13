@@ -6,15 +6,14 @@ import time
 import os
 import argparse
 
-# Ustaw bazową ścieżkę na katalog, w którym znajduje się plik serwera
-base_path = os.path.dirname(os.path.realpath(__file__))
+BASE_PATH = ''
 
 
 def verify_file_path(requested_path):
     # Uzyskanie bezwzględnej ścieżki do żądanego pliku
     absolute_requested_path = os.path.abspath(requested_path)
     # Sprawdzenie, czy żądana ścieżka znajduje się w obrębie bazowej ścieżki
-    return os.path.commonprefix([base_path, absolute_requested_path]) == base_path
+    return os.path.commonprefix([BASE_PATH, absolute_requested_path]) == BASE_PATH
 
 
 def handle_client(connection, address):
@@ -41,7 +40,7 @@ def handle_client(connection, address):
 
 
 def send_file(connection, requested_path):
-    full_path = os.path.join(base_path, requested_path)
+    full_path = os.path.join(BASE_PATH, requested_path)
 
     if not verify_file_path(full_path):
         connection.sendall(json.dumps({"status": "error", "message": "Niepoprawna ścieżka"}).encode())
@@ -59,7 +58,7 @@ def send_file(connection, requested_path):
 
 
 def send_ls(connection, requested_path):
-    full_path = os.path.join(base_path, requested_path)
+    full_path = os.path.join(BASE_PATH, requested_path)
 
     if not verify_file_path(full_path):
         connection.sendall(json.dumps({"status": "error", "message": "Niepoprawna ścieżka"}).encode())
@@ -91,7 +90,7 @@ def send_tree(connection, requested_path, indent=''):
         else:
             tree_list.append("Katalog nie znaleziony\n")
 
-    full_path = os.path.join(base_path, requested_path)
+    full_path = os.path.join(BASE_PATH, requested_path)
 
     if verify_file_path(full_path):
         tree_list = []
@@ -118,9 +117,12 @@ def start_server(host, port):
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('base_path', help='Ścieżka bazowa serwera plikóœ')
     parser.add_argument('--host', default='127.0.0.1', help='Adres nasłuchu serwera')
     parser.add_argument('--port', default=65432, help='Port nasłuchu serwera')
     args = parser.parse_args()
+    global BASE_PATH
+    BASE_PATH = args.base_path
     start_server(args.host, int(args.port))
 
 
