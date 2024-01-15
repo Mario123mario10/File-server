@@ -39,7 +39,7 @@ def handle_client(connection, address):
             print(f"Wystąpił błąd: {e}")
             break
     connection.close()
-    print("Połączenie zostało zamknięte")
+    print(f"Połączenie z {address} zostało zamknięte.")
 
 
 def send_file(connection, requested_path):
@@ -120,12 +120,15 @@ def start_server(host, port):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('base_path', help='Ścieżka bazowa serwera plikóœ')
+    parser.add_argument('base_path', help='Ścieżka bazowa serwera plików')
     parser.add_argument('--host', default='127.0.0.1', help='Adres nasłuchu serwera')
     parser.add_argument('--port', default=65432, help='Port nasłuchu serwera')
     args = parser.parse_args()
     global BASE_PATH
     BASE_PATH = os.path.abspath(args.base_path)
+    if not os.path.isdir(BASE_PATH):
+        print(f"Niepoprawna ścieżka base_path: nie wskazuje na istniejący folder")
+        return
     start_server(args.host, int(args.port))
 
 
