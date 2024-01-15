@@ -42,6 +42,9 @@ def receive_json_response(client_socket):
 
 
 def receive_file_data(client_socket, save_path, file_size):
+    # Tworzenie katalogów jeśli nie isnieją
+    os.makedirs(os.path.dirname(save_path), exist_ok = True)
+	
     with open(save_path, 'wb') as file:  # binarnie
         received_size = 0
         while received_size < file_size:
