@@ -45,8 +45,9 @@ def container_wrapper(func):
     return wrapper
 
 
+
 @container_wrapper
-def test_demo(container, server_host, server_port):
+def test_get1(container, server_host, server_port):
     put_files(container, {
         "server-files/test.txt": "test contents",
     })
@@ -58,4 +59,93 @@ def test_demo(container, server_host, server_port):
         client_socket.send(request.encode())
 
         response = receive_json_response(client_socket)
+
         assert response["status"] == "ok"
+        assert response_data["data"]=="test contents"
+@container_wrapper
+def test_get2(container, server_host, server_port):
+    put_files(container, {
+        "server-files/test.txt": "test contents",
+    })
+    command = 'get'
+    path = 'folder/test.txt'
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+        client_socket.connect((server_host, server_port))
+        request = json.dumps({'command': command, 'path': path})
+        client_socket.send(request.encode())
+
+        response = receive_json_response(client_socket)
+
+        assert response["status"] == "error"
+        assert response_data["message"]=="Plik nie znaleziony"
+
+
+@container_wrapper
+def test_ls1(container, server_host, server_port):
+    put_files(container, {
+        "server-files/test.txt": "test contents",
+    })
+    command = 'ls'
+    path = ''
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+        client_socket.connect((server_host, server_port))
+        request = json.dumps({'command': command, 'path': path})
+        client_socket.send(request.encode())
+
+        response = receive_json_response(client_socket)
+
+        assert response["status"] == "ok"
+        assert response_data["data"]=="test.txt"+"\n"+"folder"
+
+@container_wrapper
+def test_ls2(container, server_host, server_port):
+    put_files(container, {
+        "server-files/test.txt": "test contents",
+        "serwer-files/folder/cos.txt":"cos innego"
+,    })
+    command = 'ls'
+    path = 'folder'
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+        client_socket.connect((server_host, server_port))
+        request = json.dumps({'command': command, 'path': path})
+        client_socket.send(request.encode())
+
+        response = receive_json_response(client_socket)
+
+        assert response["status"] == "ok"
+        assert response_data["data"]=="folder/cos.txt"
+@container_wrapper
+def test_tree1(container, server_host, server_port):
+    put_files(container, {
+        "server-files/test.txt": "test contents",
+        "serwer-files/folder/cos.txt":"cos innego"
+,    })
+    command = 'tree'
+    path = 'folder'
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+        client_socket.connect((server_host, server_port))
+        request = json.dumps({'command': command, 'path': path})
+        client_socket.send(request.encode())
+
+        response = receive_json_response(client_socket)
+
+        assert response["status"] == "ok"
+        assert response_data["data"]=="folder/cos.txt"
+@container_wrapper
+def test_tree2(container, server_host, server_port):
+    put_files(container, {
+        "server-files/test.txt": "test contents",
+        "serwer-files/folder/cos.txt":"cos innego"
+,    })
+    command = 'tree'
+    path = ''
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+        client_socket.connect((server_host, server_port))
+        request = json.dumps({'command': command, 'path': path})
+        client_socket.send(request.encode())
+
+        response = receive_json_response(client_socket)
+
+        assert response["status"] == "ok"
+          assert response_data["data"]=="test.txt"+"\n"+"folder"+"\n"+"floder/cos.txt"
+
