@@ -17,6 +17,7 @@ def send_request(client_socket, command, path="", save_path=""):
     if command == "exit":
         return ResponseStatus.SUCCESS
     response = receive_json_response(client_socket)
+
     if response["status"] == "error":
         print(response["message"])
         return ResponseStatus.STATUS_ERROR
@@ -35,7 +36,7 @@ def send_request(client_socket, command, path="", save_path=""):
             print("Niepoprawna ścieżka: wskazuje na istniejący folder")
             return ResponseStatus.INCORRECT_INQUIRY
         if not "size" in response:
-            print("Brak danych pliku do pobrania.")
+            print("Brak danych pliku do pobrania.") # @TODO czy kiedykolwiek do tej linii w kodzie dojdziemy?
             return ResponseStatus.INCORRECT_INQUIRY
         receive_file_data(client_socket, save_path, response["size"])
         return ResponseStatus.SUCCESS
@@ -81,7 +82,7 @@ def run_client(server_host, server_port):
                 send_request(client_socket, command[0])
                 break
             elif command[0] in ['ls', 'tree']:
-                if len(command != 2):
+                if len(command) != 2:
                     print(f"niepoprawna liczba parametrów")
                     continue
                 path = command[1]
