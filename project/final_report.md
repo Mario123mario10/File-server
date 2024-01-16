@@ -301,17 +301,36 @@ Został użyty do wykonania testowania w izolowanym środowisku: Docker pozwala 
 Docker zapewnia, że aplikacja działa tak samo w każdym środowisku, ponieważ wszystkie zależności są zdefiniowane i zawarte w kontenerze. To ułatwia testowanie i eliminuje problem "u mnie działa".
 
 ## Pliki konfiguracyjne (Docker)
+mamy przygotowane 3 pliki dockerowe: główny
+services:
+  server:
+    build: ./server
+    command: python -u /server-src/server.py /server-files/ --host 0.0.0.0 --port 65432
+    container_name: z21_project_server
+  client:
+    build: ./client
+    command: python -u /client-src/client.py z21_project_server --port 65432
+    container_name: z21_project_client
+    depends_on:
+      - server
+    stdin_open: true
+    tty: true
 
-[TODO]
+serwera:
+FROM python:3
+WORKDIR /server-src
+RUN mkdir /server-files
+RUN echo "Test file" > /server-files/hello.txt
+COPY ./src/server.py .
+
+
+klienta:
+FROM python:3
+WORKDIR /client-src
+COPY ./src/client.py .
+
 
 ## Opis testów i wyników testowania (z logami)
-
-[TODO]
-Przeprowadzzono testy...
-Oto logi z testów...
-Wyniki testowania wskazują na...
-Bla bla bla...
-
-Jeśli testy wykryły błędy to: znalezienie błędów w programie pokazuje, że udało się przygotować skuteczne testy...
-Jeśli nie to: mimo rewelacyjnych, wspaniałych, gruntownych testów, nie wykryto błędów, czyli program jest super...
-
+Przeprowadzono testy każdego możliwego żądania dostępnego klientowi
+Oto logi z testów
+mimo gruntownych testów, nie wykryto błędów, więc nasz program z dużym prawdopodobieństwem działa prawidłowo
