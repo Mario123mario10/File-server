@@ -95,14 +95,22 @@ def send_tree(connection, requested_path, indent=''):
 
     full_path = os.path.join(BASE_PATH, requested_path)
 
-    if verify_file_path(full_path):
-        tree_list = []
-        generate_tree(full_path, indent, tree_list)
-        tree_data = ''.join(tree_list)
-        response = json.dumps({"status": "ok", "data": tree_data})
-        connection.sendall(response.encode())
-    else:
+    if not verify_file_path(full_path):
         connection.sendall(json.dumps({"status": "error", "message": "Niepoprawna ścieżka"}).encode())
+    elif not os.path.isdir(full_path):
+        connection.sendall(json.dumps({"status": "error", "message": "Katalog nie znaleziony"}).encode())
+    else:
+        try:
+            tree_list = []
+            generate_tree(full_path, indent, tree_list)
+            tree_data = ''.join(tree_list)
+            response = json.dumps({"status": "ok", "data": tree_data})
+            connection.sendall(response.encode())
+        except Exception as e:
+            error_message = f"Błąd: {e}"
+            connection.sendall(json.dumps({"status": "error", "message": error_message}).encode())
+			
+    
 
 
 def start_server(host, port):
