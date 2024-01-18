@@ -312,4 +312,4 @@ def test_tree_folder_does_not_exist(container, server_host, server_port):
         response = receive_json_response(client_socket)
 
         assert response["status"] == "error"
-        assert response["message"] == "Katalog nie znaleziony\n"
+        assert response["message"] == "Katalog nie znaleziony"
