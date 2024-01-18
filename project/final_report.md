@@ -334,8 +334,19 @@ COPY ./src/client.py .
 Przeprowadzono testy każdego możliwego żądania dostępnego klientowi
 Oto logi z testów
 
+============================= test session starts ==============================
+platform linux -- Python 3.8.10, pytest-7.4.4, pluggy-1.3.0
+rootdir: /home/palyska/psi/23z-psi-z21/project/client
+collected 14 items
+
+src/test_integration.py ..............                                   [100%]
+
+============================= 14 passed in 26.12s ==============================
+
+
 poza testami automatycznymi przeprowadziliśmy test współbieżności klientów 
 polegał on na jednoczesnym uruchomieniu 2 klientów i wykonanie na nich akcji ls i tree.
+![zdjęcie](./zdjecie1.png)
 jak widać na załączonym obrazie serer bez problemowo obsługiwał dwóch klientów jednocześnie.
 
 mimo gruntownych testów, nie wykryto błędów, więc nasz program z dużym prawdopodobieństwem działa prawidłowo
