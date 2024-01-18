@@ -333,4 +333,9 @@ COPY ./src/client.py .
 ## Opis testów i wyników testowania (z logami)
 Przeprowadzono testy każdego możliwego żądania dostępnego klientowi
 Oto logi z testów
+
+poza testami automatycznymi przeprowadziliśmy test współbieżności klientów 
+polegał on na jednoczesnym uruchomieniu 2 klientów i wykonanie na nich akcji ls i tree.
+jak widać na załączonym obrazie serer bez problemowo obsługiwał dwóch klientów jednocześnie.
+
 mimo gruntownych testów, nie wykryto błędów, więc nasz program z dużym prawdopodobieństwem działa prawidłowo
