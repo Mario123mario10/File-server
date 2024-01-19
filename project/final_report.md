@@ -247,7 +247,6 @@ Klient:
 - receive_json_response(client_socket): Odbiera odpowiedź JSON od serwera. Czyta dane z gniazda sieciowego i konwertuje je na format JSON. Funkcja ta jest używana do odbioru metadanych odpowiedzi przed faktycznymi danymi (np. przed odbiorem pliku). Kluczowa dla interpretacji odpowiedzi serwera, szczególnie przy rozróżnianiu między różnymi rodzajami odpowiedzi (sukces/błąd, komunikat/rozmiar/dane).
 - receive_file_data(client_socket, save_path, file_size): Odbiera dane pliku od serwera i zapisuje je lokalnie. Funkcja ta czyta dane z gniazda sieciowego w blokach i zapisuje je w pliku aż do osiągnięcia zgłoszonego rozmiaru pliku.
 
-
 ### Kluczowe biblioteki
 
 - socket:  Obydwa moduły, serwer i klient, używają gniazd sieciowych (socket) do tworzenia połączeń TCP/IP. Gniazda te pozwalają na wysyłanie i odbieranie danych przez sieć. Kluczowe dla całej komunikacji sieciowej projektu, od nawiązywania połączeń po przesyłanie danych.
@@ -301,7 +300,10 @@ Został użyty do wykonania testowania w izolowanym środowisku: Docker pozwala 
 Docker zapewnia, że aplikacja działa tak samo w każdym środowisku, ponieważ wszystkie zależności są zdefiniowane i zawarte w kontenerze. To ułatwia testowanie i eliminuje problem "u mnie działa".
 
 ## Pliki konfiguracyjne (Docker)
+
 mamy przygotowane 3 pliki dockerowe: główny
+
+```yml
 services:
   server:
     build: ./server
@@ -315,25 +317,32 @@ services:
       - server
     stdin_open: true
     tty: true
+```
 
 serwera:
+
+```dockerfile
 FROM python:3
 WORKDIR /server-src
 RUN mkdir /server-files
 RUN echo "Test file" > /server-files/hello.txt
 COPY ./src/server.py .
-
+```
 
 klienta:
+
+```dockerfile
 FROM python:3
 WORKDIR /client-src
 COPY ./src/client.py .
-
+```
 
 ## Opis testów i wyników testowania (z logami)
+
 Przeprowadzono testy każdego możliwego żądania dostępnego klientowi
 Oto logi z testów
 
+```text
 ============================= test session starts ==============================
 
 platform linux -- Python 3.8.10, pytest-7.4.4, pluggy-1.3.0
@@ -344,11 +353,12 @@ collected 14 items
 src/test_integration.py ..............                                   [100%]
 
 ============================= 14 passed in 26.12s ==============================
+```
 
+Poza testami automatycznymi przeprowadziliśmy test współbieżności klientów. Polegał on na jednoczesnym uruchomieniu 2 klientów i wykonaniu na nich poleceń `ls` i `tree`.
 
-poza testami automatycznymi przeprowadziliśmy test współbieżności klientów 
-polegał on na jednoczesnym uruchomieniu 2 klientów i wykonanie na nich akcji ls i tree.
-<img src="./zdjecie1.png" alt="zdjecie testu">
+![Test 2 klientów](img/double-client-test.png)
+
 jak widać na załączonym obrazie serer bez problemowo obsługiwał dwóch klientów jednocześnie.
 
 mimo gruntownych testów, nie wykryto błędów, więc nasz program z dużym prawdopodobieństwem działa prawidłowo
