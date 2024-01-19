@@ -359,6 +359,6 @@ Poza testami automatycznymi przeprowadziliśmy test współbieżności klientów
 
 ![Test 2 klientów](img/double-client-test.png)
 
-jak widać na załączonym obrazie serer bez problemowo obsługiwał dwóch klientów jednocześnie.
+Jak widać na załączonym obrazie serwer bez problemowo obsługiwał dwóch klientów jednocześnie.
 
-mimo gruntownych testów, nie wykryto błędów, więc nasz program z dużym prawdopodobieństwem działa prawidłowo
+Mimo gruntownych testów, nie wykryto błędów, więc nasz program z dużym prawdopodobieństwem działa prawidłowo.
