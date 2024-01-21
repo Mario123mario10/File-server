@@ -92,6 +92,7 @@ bezpiecznego i efektywnego przesyłania danych w systemie serwera plików.
 Odpowiedź serwera
 
 ### Zapytanie klient-serwer
+We wszystkich zapytaniach klient serwer stosujemy Json ponieważ umożliwia on w prosty sposób uniwersalność co umożliwia nam bardzo prostą obsługe różnorakich wyjątków. Jego wady objawiają się przy bardzo dużych narzutach co nie nastąpi w naszym projekcie
 
 | Nazwa | Typ danych |
 |----------|:-------------|
