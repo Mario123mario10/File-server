@@ -55,10 +55,9 @@ def test_response_correct(container, server_host, server_port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         client_socket.connect((server_host, server_port))
         request = json.dumps({'command': command, 'path': path})
-        client_socket.send(request.encode())
+        client_socket.send((request + "\n").encode())
 
-        response = receive_json_response(client_socket)
-
+        response, rest = receive_json_response(client_socket)
         assert response["status"] == "ok"
         assert response["size"] == len(data)
 
@@ -75,9 +74,9 @@ def test_response_wrong_path(container, server_host, server_port):
         client_socket.connect((server_host, server_port))
 
         request = json.dumps({'command': command, 'path': path})
-        client_socket.send(request.encode())
+        client_socket.send((request + "\n").encode())
 
-        response = receive_json_response(client_socket)
+        response, rest = receive_json_response(client_socket)
 
         assert response["status"] == "error"
         assert response["message"] == "Niepoprawna ścieżka"
@@ -197,9 +196,9 @@ def test_ls_single(container, server_host, server_port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         client_socket.connect((server_host, server_port))
         request = json.dumps({'command': command, 'path': path})
-        client_socket.send(request.encode())
+        client_socket.send((request + "\n").encode())
 
-        response = receive_json_response(client_socket)
+        response, rest = receive_json_response(client_socket)
 
         assert response["status"] == "ok"
         assert response["data"] == "test.txt"
@@ -215,9 +214,9 @@ def test_ls_from_subfolder(container, server_host, server_port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         client_socket.connect((server_host, server_port))
         request = json.dumps({'command': command, 'path': path})
-        client_socket.send(request.encode())
+        client_socket.send((request + "\n").encode())
 
-        response = receive_json_response(client_socket)
+        response, rest = receive_json_response(client_socket)
 
         assert response["status"] == "ok"
         assert response["data"] == "cos.txt"
@@ -235,9 +234,9 @@ def test_ls_multiple(container, server_host, server_port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         client_socket.connect((server_host, server_port))
         request = json.dumps({'command': command, 'path': path})
-        client_socket.send(request.encode())
+        client_socket.send((request + "\n").encode())
 
-        response = receive_json_response(client_socket)
+        response, rest = receive_json_response(client_socket)
 
         assert response["status"] == "ok"
         assert response["data"] == "test2.txt\ntest.txt\ntest3.txt"
@@ -252,9 +251,9 @@ def test_ls_wrong_catalogue(container, server_host, server_port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         client_socket.connect((server_host, server_port))
         request = json.dumps({'command': command, 'path': path})
-        client_socket.send(request.encode())
+        client_socket.send((request + "\n").encode())
 
-        response = receive_json_response(client_socket)
+        response, rest = receive_json_response(client_socket)
 
         assert response["status"] == "error"
         assert response["message"] == "Katalog nie znaleziony"
@@ -270,9 +269,9 @@ def test_tree_from_subfolder(container, server_host, server_port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         client_socket.connect((server_host, server_port))
         request = json.dumps({'command': command, 'path': path})
-        client_socket.send(request.encode())
+        client_socket.send((request + "\n").encode())
 
-        response = receive_json_response(client_socket)
+        response, rest = receive_json_response(client_socket)
 
         assert response["status"] == "ok"
         assert response["data"]=="cos.txt\n"
@@ -289,9 +288,9 @@ def test_tree_from_main(container, server_host, server_port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         client_socket.connect((server_host, server_port))
         request = json.dumps({'command': command, 'path': path})
-        client_socket.send(request.encode())
+        client_socket.send((request + "\n").encode())
 
-        response = receive_json_response(client_socket)
+        response, rest = receive_json_response(client_socket)
 
         assert response["status"] == "ok"
         assert response["data"] == "subfolder\n  hidden.txt\nhello.txt\n"
@@ -307,9 +306,9 @@ def test_tree_folder_does_not_exist(container, server_host, server_port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         client_socket.connect((server_host, server_port))
         request = json.dumps({'command': command, 'path': path})
-        client_socket.send(request.encode())
+        client_socket.send((request + "\n").encode())
 
-        response = receive_json_response(client_socket)
+        response, rest = receive_json_response(client_socket)
 
         assert response["status"] == "error"
         assert response["message"] == "Katalog nie znaleziony"
