@@ -28,7 +28,6 @@ Na pierwszym terminalu:
 
 ```bash
 docker exec -it z21_project_client_1 python -u /client-src/client.py z21_project_server --port 65432
-python -u /client-src/client.py z21_project_server --port 65432
 ```
 
 Na drugim terminalu:
