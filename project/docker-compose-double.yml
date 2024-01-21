@@ -1,0 +1,17 @@
+services:
+  server:
+    build: ./server
+    command: python -u /server-src/server.py /server-files/ --host 0.0.0.0 --port 65432
+    container_name: z21_project_server
+  client_1:
+    build: ./client
+    command: tail -F /dev/null
+    container_name: z21_project_client_1
+    depends_on:
+      - server
+  client_2:
+    build: ./client
+    command: tail -F /dev/null
+    container_name: z21_project_client_2
+    depends_on:
+      - server
