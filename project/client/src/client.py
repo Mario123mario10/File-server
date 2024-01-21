@@ -24,7 +24,6 @@ def send_request(client_socket, command, path="", save_path=""):
 
     if command in ['ls', 'tree']:
         if "data" in response:
-            print("\n")
             print(response["data"])
             return ResponseStatus.SUCCESS
         else:
@@ -67,25 +66,35 @@ def receive_file_data(client_socket, save_path, file_size):
             file.write(data)
             received_size += len(data)
 
-GET_INSTRUCTIONS = "get <ścieżka do pliku na serwerze> <ścieżka do pliku gdzie zapisać>"
-LS_INSTRUCTIONS = "ls <ścieżka>"
-TREE_INSTRUCTIONS = "tree <ścieżka>"
-EXIT_INSTRUCTIONS = "exit"
+
+INSTRUCTIONS = [
+    ("get <ścieżka na serwerze> <ścieżka gdzie zapisać>", "Pobiera plik z serwera"),
+    ("ls [<ścieżka>]", "Wyświetla zawartość folderu"),
+    ("tree [<ścieżka>]", "Wyświetla drzewo folderów"),
+    ("help", "Wyświetla dostępne komendy"),
+    ("exit", "Zamyka program")
+]
+
+
+def print_instructions():
+    print("Dostępne komendy:")
+    max_command_length = max([len(instruction[0]) for instruction in INSTRUCTIONS])
+    for instruction in INSTRUCTIONS:
+        print(f"  {instruction[0]:<{max_command_length+3}}{instruction[1]}")
+
+
 def run_client(server_host, server_port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         client_socket.connect((server_host, server_port))
+        print_instructions()
         while True:
-            print(f"Dostępne komendy: {GET_INSTRUCTIONS}, {LS_INSTRUCTIONS}, {TREE_INSTRUCTIONS}, {EXIT_INSTRUCTIONS}")
-            command = input("Wprowadź komendę: ")
+            command = input("> ")
             command = command.split(' ')
             if command[0] == 'exit':
                 send_request(client_socket, command[0])
                 break
             elif command[0] in ['ls', 'tree']:
-                if len(command) != 2:
-                    print(f"niepoprawna liczba parametrów")
-                    continue
-                path = command[1]
+                path = command[1] if len(command) >= 2 else "."
                 send_request(client_socket, command[0], path)
             elif command[0] == 'get':
                 if len(command) != 3:
@@ -94,9 +103,10 @@ def run_client(server_host, server_port):
                 path = command[1]
                 save_path = command[2]
                 send_request(client_socket, command[0], path, save_path)
+            elif command[0] == 'help':
+                print_instructions()
             else:
                 print("Nieznana komenda.")
-            print("\n")
 
 
 def main():
