@@ -10,13 +10,18 @@ class ResponseStatus(Enum):
     INCORRECT_INQUIRY = 2
     OTHER_ERROR = 3
 
+
+class ConnectionClosed(Exception):
+    ...
+
+
 def send_request(client_socket, command, path="", save_path=""):
     request = json.dumps({'command': command, 'path': path})
-    client_socket.send(request.encode())
+    client_socket.send((request + "\n").encode())
 
     if command == "exit":
         return ResponseStatus.SUCCESS
-    response = receive_json_response(client_socket)
+    response, rest = receive_json_response(client_socket)
 
     if response["status"] == "error":
         print(response["message"])
@@ -37,34 +42,41 @@ def send_request(client_socket, command, path="", save_path=""):
         if not "size" in response:
             print("Brak danych pliku do pobrania.") # @TODO czy kiedykolwiek do tej linii w kodzie dojdziemy?
             return ResponseStatus.INCORRECT_INQUIRY
-        receive_file_data(client_socket, save_path, response["size"])
+        receive_file_data(client_socket, save_path, response["size"], rest)
         return ResponseStatus.SUCCESS
     return ResponseStatus.OTHER_ERROR
 
 
 
 def receive_json_response(client_socket):
-    response_data = ''
+    json_string = ''
     while True:
-        part = client_socket.recv(4096).decode()
-        response_data += part
-        if len(part) < 4096:
-            break
-    return json.loads(response_data)
+        data = client_socket.recv(4096)
+        if not data:
+            raise ConnectionClosed()
+        decoded_data = data.decode()
+        if '\n' in decoded_data:
+            json_string += decoded_data[:decoded_data.find('\n')]
+            return json.loads(json_string), data[data.index(b'\n') + 1:]
 
 
-def receive_file_data(client_socket, save_path, file_size):
+def receive_file_data(client_socket, save_path, file_size, initial_data):
     # Tworzenie katalogów jeśli nie isnieją
 
     if('/' in save_path):
         os.makedirs(os.path.dirname(save_path), exist_ok = True)
 
     with open(save_path, 'wb') as file:  # binarnie
-        received_size = 0
+        if initial_data:
+            file.write(initial_data)
+        received_size = len(initial_data)
         while received_size < file_size:
             data = client_socket.recv(4096)
+            if not data:
+                raise ConnectionClosed()
             file.write(data)
             received_size += len(data)
+        print(f"Pobrano {received_size} bajtów")
 
 
 INSTRUCTIONS = [
@@ -90,23 +102,32 @@ def run_client(server_host, server_port):
         while True:
             command = input("> ")
             command = command.split(' ')
-            if command[0] == 'exit':
-                send_request(client_socket, command[0])
+            try:
+                if command[0] == 'exit':
+                    send_request(client_socket, command[0])
+                    break
+                elif command[0] in ['ls', 'tree']:
+                    path = command[1] if len(command) >= 2 else "."
+                    send_request(client_socket, command[0], path)
+                elif command[0] == 'get':
+                    if len(command) < 2:
+                        print(f"niepoprawna liczba parametrów")
+                        continue
+                    if len(command) < 3:
+                        save_path = os.getcwd() + '/' + command[1].split('/')[-1]
+                    elif os.path.isdir(command[2]):
+                        save_path = command[2] + '/' + command[1].split('/')[-1]
+                    else:
+                        save_path = command[2]
+                    path = command[1]
+                    send_request(client_socket, command[0], path, save_path)
+                elif command[0] == 'help':
+                    print_instructions()
+                else:
+                    print("Nieznana komenda.")
+            except ConnectionClosed as e:
+                print(f"Połączenie zostało zamknięte")
                 break
-            elif command[0] in ['ls', 'tree']:
-                path = command[1] if len(command) >= 2 else "."
-                send_request(client_socket, command[0], path)
-            elif command[0] == 'get':
-                if len(command) != 3:
-                    print(f"niepoprawna liczba parametrów")
-                    continue
-                path = command[1]
-                save_path = command[2]
-                send_request(client_socket, command[0], path, save_path)
-            elif command[0] == 'help':
-                print_instructions()
-            else:
-                print("Nieznana komenda.")
 
 
 def main():

@@ -16,17 +16,30 @@ def verify_file_path(requested_path):
     return os.path.commonprefix([BASE_PATH, absolute_requested_path]) == BASE_PATH
 
 
+class ConnectionClosed(Exception):
+    ...
+
+
+def receive_json_response(client_socket):
+    json_string = ''
+    while True:
+        data = client_socket.recv(4096)
+        if not data:
+            raise ConnectionClosed("Połączenie zostało zamknięte przez klienta.")
+        decoded_data = data.decode()
+        if '\n' in decoded_data:
+            json_string += decoded_data[:decoded_data.find('\n')]
+            return json.loads(json_string)
+
+
 def handle_client(connection, address):
     print(f"Połączenie z {address} zostało nawiązane.")
     while True:
         try:
-            data = connection.recv(1024).decode()
-            if not data:
-                break
-            request = json.loads(data)
+            request = receive_json_response(connection)
             command = request['command']
             path = request['path']
-
+            print(f"{address}: Otrzymano {command} {path}")
             if command == 'get':
                 send_file(connection, path)
             elif command == 'ls':
@@ -46,12 +59,12 @@ def send_file(connection, requested_path):
     full_path = os.path.join(BASE_PATH, requested_path)
 
     if not verify_file_path(full_path):
-        connection.sendall(json.dumps({"status": "error", "message": "Niepoprawna ścieżka"}).encode())
+        connection.sendall((json.dumps({"status": "error", "message": "Niepoprawna ścieżka"}) + "\n").encode())
     elif not os.path.isfile(full_path):
-        connection.sendall(json.dumps({"status": "error", "message": "Plik nie znaleziony"}).encode())
+        connection.sendall((json.dumps({"status": "error", "message": "Plik nie znaleziony"}) + "\n").encode())
     else:
         file_size = os.path.getsize(full_path)
-        connection.sendall(json.dumps({"status": "ok", "size": file_size}).encode())
+        connection.sendall((json.dumps({"status": "ok", "size": file_size}) + "\n").encode())
 
         with open(full_path, 'rb') as file:
             data = file.read(4096)
@@ -64,18 +77,18 @@ def send_ls(connection, requested_path):
     full_path = os.path.join(BASE_PATH, requested_path)
 
     if not verify_file_path(full_path):
-        connection.sendall(json.dumps({"status": "error", "message": "Niepoprawna ścieżka"}).encode())
+        connection.sendall((json.dumps({"status": "error", "message": "Niepoprawna ścieżka"}) + "\n").encode())
     elif not os.path.isdir(full_path):
-        connection.sendall(json.dumps({"status": "error", "message": "Katalog nie znaleziony"}).encode())
+        connection.sendall((json.dumps({"status": "error", "message": "Katalog nie znaleziony"}) + "\n").encode())
     else:
         try:
             files = os.listdir(full_path)
             data = '\n'.join(files)
             response = json.dumps({"status": "ok", "data": data})
-            connection.sendall(response.encode())
+            connection.sendall((response + "\n").encode())
         except Exception as e:
             error_message = f"Błąd: {e}"
-            connection.sendall(json.dumps({"status": "error", "message": error_message}).encode())
+            connection.sendall((json.dumps({"status": "error", "message": error_message}) + "\n").encode())
 
 
 def send_tree(connection, requested_path, indent=''):
@@ -96,19 +109,19 @@ def send_tree(connection, requested_path, indent=''):
     full_path = os.path.join(BASE_PATH, requested_path)
 
     if not verify_file_path(full_path):
-        connection.sendall(json.dumps({"status": "error", "message": "Niepoprawna ścieżka"}).encode())
+        connection.sendall((json.dumps({"status": "error", "message": "Niepoprawna ścieżka"}) + "\n").encode())
     elif not os.path.isdir(full_path):
-        connection.sendall(json.dumps({"status": "error", "message": "Katalog nie znaleziony"}).encode())
+        connection.sendall((json.dumps({"status": "error", "message": "Katalog nie znaleziony"}) + "\n").encode())
     else:
         try:
             tree_list = []
             generate_tree(full_path, indent, tree_list)
             tree_data = ''.join(tree_list)
             response = json.dumps({"status": "ok", "data": tree_data})
-            connection.sendall(response.encode())
+            connection.sendall((response + "\n").encode())
         except Exception as e:
             error_message = f"Błąd: {e}"
-            connection.sendall(json.dumps({"status": "error", "message": error_message}).encode())
+            connection.sendall((json.dumps({"status": "error", "message": error_message}) + "\n").encode())
 			
     
 
